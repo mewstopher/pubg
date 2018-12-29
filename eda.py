@@ -19,6 +19,9 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
+def display_all(df):
+    with pd.option_context("display.max_rows", 1000, "display.max_columns", 1000):
+        display(df)
 
 # exploratory data analysis
 
@@ -27,3 +30,16 @@ train = pd.read_csv(path + "/train_V2.csv")
 train_cats(train)
 train = train[np.isfinite(train['winPlacePerc'])]
 df, y, nas = proc_df(train, 'winPlacePerc')
+
+display_all(train.tail().T)
+train.describe().T
+
+g = sns.heatmap(train[:].corr(),annot=True,  cmap = "coolwarm")
+
+# winpoints: bimodel distribution. one at zero, one at 1500
+g = sns.distplot(train['winPoints'], color="m")
+
+g = sns.distplot(train['weaponsAcquired'], color="m")
+
+train["weaponsAcquired"] = train["weaponsAcquired"].map(lambda i: np.log(i) if i > 0 else 0)
+train['weaponsAcquired'].unique()
