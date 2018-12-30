@@ -20,13 +20,16 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
 
-# initial random forest using data without modifying
+# initial random forest using semi cleaned data
+# train score: .005
+# test score: .007
+
 def print_score(m):
     res = [mean_squared_error(m.predict(X_train), y_train), mean_squared_error(m.predict(X_test), y_test)]
     if hasattr(m, 'oob_score_'): res.append(m.oob_score_)
     print(res)
 
-path = "../output"
+path = "output"
 train = pd.read_csv(path + "/train_clean.csv")
 train_cats(train)
 train = train[np.isfinite(train['winPlacePerc'])]
@@ -35,8 +38,12 @@ X_train, X_test, y_train, y_test = train_test_split(df, y)
 print('loading complete')
 
 set_rf_samples(500000)
-pipe = Pipeline([('scaler', StandardScaler()),('rf', RandomForestRegressor(random_state=8, n_jobs=-1,
-    verbose=1))])
-pipe.fit(X_train, y_train)
+m = RandomForestRegressor(random_state=8, n_jobs=-1, verbose=10)
+m.fit(X_train, y_train)
+
 print('training complete')
-print_score(pipe)
+print_score(m)
+
+fi = rf_feat_importance(m, X_train)
+def plot_fi(fi): return fi.plot('cols', 'imp', 'barh', figsize=(12,7), legend=False)
+plot_fi(fi[:20]); 
