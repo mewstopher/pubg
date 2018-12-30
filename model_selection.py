@@ -34,13 +34,13 @@ X_train, X_test, y_train, y_test = train_test_split(df, y)
 random_state = 2
 classifiers = []
 
-classifiers.append(RandomForestRegressor(random_state=random_state))
-classifiers.append(GradientBoostingRegressor(random_state=random_state))
-classifiers.append(XGBRegressor(random_state=random_state))
-classifiers.append(DecisionTreeRegressor(random_state=random_state))
-classifiers.append(AdaBoostRegressor(DecisionTreeRegressor(random_state=random_state),random_state=random_state,learning_rate=0.1))
-classifiers.append(ExtraTreesRegressor(random_state=random_state))
-classifiers.append(KNeighborsRegressor())
+classifiers.append(RandomForestRegressor(random_state=random_state, verbose=10))
+classifiers.append(GradientBoostingRegressor(random_state=random_state, verbose=10))
+classifiers.append(XGBRegressor(random_state=random_state, verbose=10))
+classifiers.append(DecisionTreeRegressor(random_state=random_state, verbose=10))
+classifiers.append(AdaBoostRegressor(DecisionTreeRegressor(random_state=random_state , verbose=10),random_state=random_state,learning_rate=0.1))
+classifiers.append(ExtraTreesRegressor(random_state=random_state, verbose=10))
+classifiers.append(KNeighborsRegressor(verbose=10))
 
 cv_results = []
 for classifier in classifiers :
