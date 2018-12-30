@@ -32,7 +32,7 @@ X_train, X_test, y_train, y_test = train_test_split(df, y)
 
 kfold = 5
 
-
+set_rf_samples(500000)
 rf_pipe = Pipeline([('scaler', StandardScaler()), ('rf', RandomForestRegressor(random_state=7))])
 rf_params = {'rf__n_estimators': [40,100,150],
         'rf__min_samples_leaf':[1, 3, 5]}
